@@ -1,92 +1,419 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="theme-color" content="#102a2b" />
-<title>Vinted Ireland Finder — Free experimental search</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#102a2b">
+
+<title>Vinted Ireland Finder</title>
+
 <style>
-:root{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1b2d30;background:#f5f8f7}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}header{background:#102a2b;color:#fff;padding:26px 18px 25px}main{max-width:980px;margin:auto;padding:0 14px 50px}.top{max-width:980px;margin:auto}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#a4d9ca;font-weight:750}h1{font-size:clamp(26px,6vw,42px);letter-spacing:-.045em;margin:9px 0}header p{color:#d0e4e0;line-height:1.5;margin:0;max-width:580px}.panel{background:#fff;border:1px solid #e2eae8;border-radius:18px;padding:18px;box-shadow:0 5px 25px #152b2910;margin-top:18px}.search{display:flex;gap:8px;margin:10px 0 18px}.search input{min-width:0;flex:1;border:1px solid #b8c9c4;border-radius:12px;padding:13px}.primary{background:#067e69;color:#fff;border:0;border-radius:12px;padding:12px 18px;font-weight:750}.secondary{background:#eef5f2;color:#125448;border:1px solid #d5e7e1;border-radius:10px;padding:10px 12px;font-weight:650}.controls{display:flex;flex-wrap:wrap;gap:12px}.controls label{display:flex;gap:7px;align-items:center;border:1px solid #e1eae6;border-radius:12px;padding:9px 11px;font-size:14px}input[type=checkbox]{accent-color:#067e69;width:17px;height:17px}.status{margin-top:16px;background:#eff5f3;border:1px solid #d9e9e3;border-radius:12px;padding:13px;line-height:1.5;font-size:14px}.status.error{background:#fff5ed;border-color:#f1d8c0}.status.success{background:#eaf8f0;border-color:#b8e5ce}.muted{color:#59706c;font-size:13px}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}a{color:#007b66}.results{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:14px;margin-top:16px}.item{display:block;background:#fff;border:1px solid #e2eae8;border-radius:14px;overflow:hidden;color:inherit;text-decoration:none;transition:transform .1s}.item:active{transform:scale(.98)}.item img{width:100%;aspect-ratio:4/5;object-fit:cover;background:#e9eeec}.item .body{padding:12px}.item .title{font-size:14px;font-weight:650;line-height:1.35;min-height:38px}.item .price{font-weight:800;margin-top:8px}.tag{display:inline-block;font-size:11px;background:#e8f6f0;color:#11634f;padding:5px 7px;border-radius:8px;margin-top:8px}.tag.unknown{background:#edf0f4;color:#556475}.tag.rejected{background:#fff1e7;color:#9a4a1c}.meta{margin:20px 2px 8px;font-size:14px}.small{font-size:12px;line-height:1.6;color:#617571}.footer{padding-top:18px;border-top:1px solid #dae5e0;margin-top:32px}.pill{display:inline-block;font-size:12px;padding:5px 8px;border-radius:100px;background:#e5f5ed;color:#146b51;font-weight:700}.hint{font-size:13px;color:#526d66;line-height:1.6}code{background:#f0f4f2;border-radius:4px;padding:2px 4px}details{margin-top:12px}summary{cursor:pointer;font-size:13px;color:#315c52}@media(max-width:430px){.search{flex-direction:column}.primary{width:100%}.panel{padding:14px}.results{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.item .body{padding:10px}}
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #1b2d30;
+  background: #f5f8f7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  background: #102a2b;
+  color: white;
+  padding: 28px 18px;
+}
+
+header > div,
+main {
+  max-width: 850px;
+  margin: auto;
+}
+
+h1 {
+  font-size: clamp(28px, 6vw, 42px);
+  margin: 8px 0;
+  letter-spacing: -0.04em;
+}
+
+header p {
+  color: #d0e4e0;
+  line-height: 1.5;
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a4d9ca;
+  font-weight: 750;
+}
+
+.panel {
+  background: white;
+  border: 1px solid #e2eae8;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 5px 25px #152b2910;
+  margin: 18px 0;
+}
+
+.field {
+  display: block;
+  margin: 15px 0 6px;
+  font-weight: 750;
+}
+
+.field small {
+  font-weight: 400;
+  color: #61766f;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #b8c9c4;
+  border-radius: 12px;
+  padding: 14px;
+  font: inherit;
+  background: white;
+  color: #172b29;
+}
+
+.input:focus {
+  outline: 2px solid #067e69;
+  border-color: #067e69;
+}
+
+.hint {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #61766f;
+  margin: 6px 0 14px;
+}
+
+.primary {
+  width: 100%;
+  background: #067e69;
+  color: white;
+  border: 0;
+  border-radius: 12px;
+  padding: 15px;
+  font: inherit;
+  font-weight: 750;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+.primary:active {
+  background: #056654;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.controls label {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  border: 1px solid #e1eae6;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  accent-color: #067e69;
+  width: 17px;
+  height: 17px;
+}
+
+.notice {
+  background: #fff5ed;
+  border: 1px solid #f1d8c0;
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 16px;
+}
+
+.info {
+  background: #eff5f3;
+  border: 1px solid #d9e9e3;
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+.footer {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #61766f;
+  margin: 22px 2px;
+}
+
+@media (max-width: 480px) {
+  .panel {
+    padding: 15px;
+  }
+}
 </style>
 </head>
+
 <body>
-<header><div class="top"><div class="eyebrow">Free experimental prototype · v0.1</div><h1>Vinted Ireland Finder 🇮🇪</h1><p>Search for anything. Keep sellers from Ireland and Poland, plus sellers whose country is unknown. Open listings on Vinted.</p></div></header>
+
+<header>
+  <div>
+    <div class="eyebrow">Free · Mobile friendly</div>
+
+    <h1>Vinted Ireland Finder 🇮🇪</h1>
+
+    <p>
+      Find the items and brands you want.
+      Search Vinted with your preferred seller locations in mind.
+    </p>
+  </div>
+</header>
+
 <main>
+
 <section class="panel">
-<label for="query"><strong>What are you looking for?</strong></label>
-<form id="form" class="search"><input id="query" type="search" placeholder="e.g. Nike Air Max, Patagonia jacket" autocomplete="off" required /><button class="primary" type="submit">Search listings</button></form>
-<div><strong>Show sellers from</strong></div>
-<div class="controls" style="margin-top:10px">
-<label><input id="ie" type="checkbox" checked />🇮🇪 Ireland</label>
-<label><input id="pl" type="checkbox" checked />🇵🇱 Poland</label>
-<label><input id="unknown" type="checkbox" checked />🌍 Unknown</label>
-</div>
-<div class="hint" style="margin-top:9px">Other identified countries are excluded. Your choices are saved on this device. Unknown does not mean Ireland or Poland.</div>
-<div id="status" class="status" role="status" aria-live="polite">Ready to test live Vinted search. This prototype does not yet have a confirmed working data connection.</div>
-<div class="actions"><button id="test" type="button" class="secondary">Test Vinted connection</button><button id="vinted" type="button" class="secondary">Search on Vinted instead ↗</button></div>
-<details><summary>How this test works / privacy</summary><p class="small">This page makes a direct read-only request from your browser to Vinted's catalogue endpoint. If Vinted blocks cross-site requests (CORS), this page cannot load listings on GitHub Pages alone. It never asks for your Vinted password and sends no data to us. Search text is sent only to Vinted when you test or search. Browser settings are saved locally. No scraping proxies or paid APIs are used.</p></details>
+
+  <h2>Build your search</h2>
+
+  <label class="field" for="item">
+    What are you looking for?
+  </label>
+
+  <input
+    class="input"
+    id="item"
+    type="search"
+    placeholder="e.g. cargos, jacket, trainers"
+    autocomplete="off"
+  >
+
+  <label class="field" for="brand">
+    Brand <small>(optional)</small>
+  </label>
+
+  <input
+    class="input"
+    id="brand"
+    type="search"
+    placeholder="e.g. Nike, Adidas, Carhartt, Zara"
+    autocomplete="off"
+  >
+
+  <p class="hint">
+    Search for an item, a brand, or combine both.
+    You can enter any brand you want.
+  </p>
+
+  <button class="primary" id="search" type="button">
+    Search on Vinted ↗
+  </button>
+
+  <div class="info">
+
+    <strong>Preferred seller countries</strong>
+
+    <div class="controls">
+
+      <label>
+        <input id="ie" type="checkbox" checked>
+        🇮🇪 Ireland
+      </label>
+
+      <label>
+        <input id="pl" type="checkbox" checked>
+        🇵🇱 Poland
+      </label>
+
+      <label>
+        <input id="unknown" type="checkbox" checked>
+        🌍 Unknown
+      </label>
+
+    </div>
+
+    <p class="hint" style="margin-bottom:0">
+      Your preferences are saved on this device.
+      Other known countries are not included in your preferred
+      locations. Unknown sellers are not assumed to be Irish
+      or Polish.
+    </p>
+
+  </div>
+
+  <div class="notice">
+
+    <strong>Important search information</strong>
+
+    <p>
+      Vinted currently blocks direct catalogue requests from
+      this website. Searches therefore open on Vinted itself.
+    </p>
+
+    <p>
+      The country preferences are saved here, but cannot
+      automatically filter Vinted's live results yet.
+      Check seller locations and delivery costs before buying.
+    </p>
+
+  </div>
+
 </section>
-<div id="meta" class="meta">No results loaded yet.</div>
-<section id="results" class="results" aria-label="Vinted search results"></section>
-<div class="footer small">Unofficial project, not affiliated with Vinted. Country is a seller attribute, not a guaranteed postage price. Confirm delivery cost on the original listing before buying. The prototype intentionally displays no invented or sample listings as real results.</div>
+
+<p class="footer">
+  Unofficial helper. Not affiliated with Vinted.
+  No Vinted password or account login is requested.
+  Search terms are sent to Vinted when you press the search button.
+</p>
+
 </main>
+
 <script>
-(() => {
-'use strict';
-const $=id=>document.getElementById(id);
-const KEY='vinted-finder-settings-v1';
-let rawItems=[];
-try{const s=JSON.parse(localStorage.getItem(KEY)||'{}'); for(const k of ['ie','pl','unknown'])if(typeof s[k]==='boolean')$(k).checked=s[k];}catch{}
-for(const k of ['ie','pl','unknown'])$(k).addEventListener('change',()=>{localStorage.setItem(KEY,JSON.stringify({ie:$('ie').checked,pl:$('pl').checked,unknown:$('unknown').checked}));render();});
-function status(message,type=''){$('status').className='status '+type;$('status').textContent=message;}
-function country(user){
- const v=String(user?.country_iso_code||user?.country_code||user?.country_title||user?.country_title_local||'').trim().toLowerCase();
- if(v==='ie'||v==='ireland')return 'IE';if(v==='pl'||v==='poland'||v==='polska')return 'PL';
- if(!v)return '';return v.toUpperCase();
-}
-function allow(code){return code==='IE'?$('ie').checked:code==='PL'?$('pl').checked:!code?$('unknown').checked:false;}
-function safeText(x){return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function validUrl(url){try{const u=new URL(url,'https://www.vinted.ie');return u.protocol==='https:'&&(/(^|\.)vinted\.[a-z.]+$/i).test(u.hostname)?u.href:'';}catch{return '';}}
-function itemUrl(i){return validUrl(i.url||i.path||`https://www.vinted.ie/items/${encodeURIComponent(i.id)}`);}
-function photo(i){const p=i.photo||i.photos?.[0];const raw=p?.url||p?.full_size_url||p?.thumbnails?.[0]?.url||'';try{const u=new URL(raw);return u.protocol==='https:'?u.href:'';}catch{return '';}}
-function render(){
- const visible=rawItems.filter(i=>allow(country(i.user||i.seller||{})));
- $('meta').textContent=rawItems.length?`${visible.length} of ${rawItems.length} returned listings shown. Countries not verified remain "Unknown".`:'No live listings loaded.';
- $('results').replaceChildren();
- for(const i of visible){
-  const href=itemUrl(i);if(!href)continue;
-  const c=country(i.user||i.seller||{}),tag=c==='IE'?'🇮🇪 Ireland':c==='PL'?'🇵🇱 Poland':c?`🌍 ${c}`:'🌍 Unknown';
-  const a=document.createElement('a');a.className='item';a.href=href;a.target='_blank';a.rel='noopener noreferrer';
-  const img=photo(i),name=safeText(i.title||i.name||'Vinted listing');
-  const price=i.price?.amount??i.price_numeric??i.price??null;
-  const currency=i.price?.currency_code||i.currency||'EUR';
-  const priceText=price!==null?`${safeText(price)} ${safeText(currency)}`:'View price on Vinted';
-  a.innerHTML=`${img?`<img loading="lazy" alt="" referrerpolicy="no-referrer" src="${safeText(img)}">`:'<div style="aspect-ratio:4/5;background:#e8eeeb"></div>'}<div class="body"><div class="title">${name}</div><div class="price">${priceText}</div><span class="tag ${c?'':'unknown'}">${safeText(tag)}</span></div>`;
-  $('results').appendChild(a);
- }
-}
-function searchUrl(q){const u=new URL('https://www.vinted.ie/catalog');u.searchParams.set('search_text',q);return u.href;}
-$('vinted').addEventListener('click',()=>{const q=$('query').value.trim();window.open(searchUrl(q),'_blank','noopener');});
-async function search(){
- const q=$('query').value.trim();if(!q){status('Enter an item to search for.','error');return;}
- rawItems=[];render();status('Checking whether Vinted allows live search requests from this website…');
- const u=new URL('https://www.vinted.ie/api/v2/catalog/items');u.searchParams.set('search_text',q);u.searchParams.set('per_page','24');u.searchParams.set('page','1');
- const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),12000);
- try{
-  const r=await fetch(u.href,{method:'GET',mode:'cors',credentials:'omit',headers:{Accept:'application/json'},signal:ctrl.signal});
-  if(!r.ok)throw new Error(`Vinted returned HTTP ${r.status}`);
-  const data=await r.json();const items=data?.items||data?.catalog_items||data?.data?.items;
-  if(!Array.isArray(items))throw new Error('Response did not contain a recognised list of items');
-  rawItems=items;render();
-  const withCountry=items.filter(i=>country(i.user||i.seller||{})).length;
-  status(`Connection succeeded: ${items.length} listings returned. Seller country available on ${withCountry}. ${withCountry<items.length?'Listings without seller country are kept as Unknown.':''}`,'success');
- }catch(err){
-  const reason=err?.name==='AbortError'?'Request timed out':(err?.message||'Unknown error');
-  status(`Live search unavailable (${reason}). This is commonly caused by Vinted blocking cross-origin requests (CORS), or by API changes. GitHub Pages cannot bypass that restriction. Use “Search on Vinted instead” for now.`,'error');
- }finally{clearTimeout(timer);}
-}
-$('form').addEventListener('submit',e=>{e.preventDefault();search();});
-$('test').addEventListener('click',()=>{if(!$('query').value.trim())$('query').value='nike';search();});
+(function () {
+
+  "use strict";
+
+  const itemInput = document.getElementById("item");
+  const brandInput = document.getElementById("brand");
+  const searchButton = document.getElementById("search");
+
+  const countryOptions = [
+    "ie",
+    "pl",
+    "unknown"
+  ];
+
+  const storageKey = "vinted-finder-preferences-v2";
+
+  // Restore saved country preferences
+  try {
+
+    const saved = JSON.parse(
+      localStorage.getItem(storageKey) || "{}"
+    );
+
+    countryOptions.forEach(function (country) {
+
+      if (typeof saved[country] === "boolean") {
+        document.getElementById(country).checked =
+          saved[country];
+      }
+
+    });
+
+  } catch (error) {
+    console.log("Could not restore saved preferences.");
+  }
+
+  // Save country preferences whenever changed
+  function savePreferences() {
+
+    const preferences = {};
+
+    countryOptions.forEach(function (country) {
+
+      preferences[country] =
+        document.getElementById(country).checked;
+
+    });
+
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(preferences)
+      );
+    } catch (error) {
+      console.log("Could not save preferences.");
+    }
+
+  }
+
+  countryOptions.forEach(function (country) {
+
+    document
+      .getElementById(country)
+      .addEventListener("change", savePreferences);
+
+  });
+
+  // Build and open Vinted search
+  function performSearch() {
+
+    const item = itemInput.value.trim();
+    const brand = brandInput.value.trim();
+
+    const searchTerms = [];
+
+    if (brand) {
+      searchTerms.push(brand);
+    }
+
+    if (item) {
+      searchTerms.push(item);
+    }
+
+    const combinedSearch = searchTerms.join(" ");
+
+    if (!combinedSearch) {
+      itemInput.focus();
+      alert("Please enter an item or a brand to search for.");
+      return;
+    }
+
+    const vintedUrl = new URL(
+      "https://www.vinted.ie/catalog"
+    );
+
+    vintedUrl.searchParams.set(
+      "search_text",
+      combinedSearch
+    );
+
+    window.location.href = vintedUrl.href;
+
+  }
+
+  searchButton.addEventListener(
+    "click",
+    performSearch
+  );
+
+  // Allow Enter to submit from either search field
+  itemInput.addEventListener("keydown", function (event) {
+
+    if (event.key === "Enter") {
+      performSearch();
+    }
+
+  });
+
+  brandInput.addEventListener("keydown", function (event) {
+
+    if (event.key === "Enter") {
+      performSearch();
+    }
+
+  });
+
 })();
 </script>
-</body></html>
+
+</body>
+</html>
